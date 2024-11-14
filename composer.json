@@ -1,0 +1,62 @@
+{
+    "name": "telex/laravel-apm",
+    "description": "Telex SDK for Laravel applications (https://telex.im)",
+    "type": "library",
+    "keywords": [
+        "telex",
+        "laravel",
+        "log",
+        "logging",
+        "error-monitoring",
+        "error-handler",
+        "crash-reporting",
+        "crash-reports",
+        "profiling",
+        "tracing"
+    ],
+    "homepage": "https://telex.im",
+    "authors": [
+        {
+            "name": "Telex",
+            "email": "help@telex.im"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "laravel/framework": "^8.0|^9.0|^10.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "TelexAPM\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TelexAPM\\APMServiceProvider"
+            ],
+            "aliases": {
+                "APM": "TelexAPM\\Facades\\APM"
+            }
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0",
+        "orchestra/testbench": "^6.0|^7.0",
+        "mockery/mockery": "^1.4"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TelexAPM\\Tests": "tests/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@tests"
+        ],
+        "tests": "vendor/bin/phpunit",
+        "cs-check": "vendor/bin/php-cs-fixer fix --verbose --diff --dry-run",
+        "cs-fix": "vendor/bin/php-cs-fixer fix --verbose --diff"
+    }
+}
