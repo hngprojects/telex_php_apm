@@ -1,79 +1,140 @@
+Below is a sample `README.md` file for your Laravel APM package:
 
-# Official Telex SDK for Laravel
-This is the official Laravel SDK for [Telex](https://telex.im).
+```markdown
+# Telex APM
+
+**Telex APM** is a simple, installable Laravel package designed to monitor and collect application performance metrics. The package collects data on each backend request and sends these metrics to a specified webhook URL. The package is intended to be easily integrated into any Laravel application.
 
 ## Features
 
-- **Request Metrics Collection**: Track HTTP request metrics including endpoint, latency, status codes, and HTTP method.
-- **Error Reporting**: Automatically capture panics and errors, report them to a webhook URL, and optionally rethrow panics based on configuration.
-- **Performance Metrics Collection**: Monitor application performance metrics such as memory usage, CPU usage, garbage collection cycles, and goroutine count.
-- **Customizable**: Supports configurable options such as timeouts and synchronous/asynchronous metric delivery.
-- **Flexible Status Handling**: Categorize requests as `success` (for 2xx status codes) or `error` (for 3xx, 4xx, and 5xx status codes).
+- Middleware to collect backend metrics for each request.
+- Send collected metrics to a configurable webhook URL.
+- Easy installation via Composer.
+- Configurable via Laravel's standard configuration file system.
 
-## Getting Started
+## Requirements
 
-The installation steps below work on version 11.x of the Laravel framework.
+- PHP 7.4 or higher
+- Laravel 8.x or higher
+- `pdo_sqlite` (if using SQLite for testing purposes)
 
-Install the php
-Install the composer 
-run the code '''composer global require laravel/installer'''
+## Installation
 
-For older Laravel versions see:[laravel installation doc](https://laravel.com/docs/11.x/installation#installing-php)
+To install the package in your Laravel project, follow these steps:
 
-### Install
+### 1. Install via Composer
 
-Install the `Telex/telex-laravel` package:
+Run the following command in your Laravel project root directory:
 
 ```bash
-composer require sentry/sentry-laravel
+composer require telexorg/telex-apm
 ```
 
-Enable capturing unhandled exception to report to Sentry by making the following change to your `bootstrap/app.php`:
+### 2. Publish the Configuration
 
-```php {filename:bootstrap/app.php}
-<?php
+After installing the package, you need to publish the configuration file:
 
-use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Configuration\Exceptions;
-use Illuminate\Foundation\Configuration\Middleware;
-use Sentry\Laravel\Integration;
-
-return Application::configure(basePath: dirname(__DIR__))
-    ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        commands: __DIR__.'/../routes/console.php',
-        health: '/up',
-    )
-    ->withMiddleware(function (Middleware $middleware) {
-        //
-    })
-    ->withExceptions(function (Exceptions $exceptions) {
-        Integration::handles($exceptions);
-    })->create();
+```bash
+php artisan vendor:publish --tag=config
 ```
 
-> Alternatively, you can configure Sentry as a [Laravel Log Channel](https://docs.sentry.io/platforms/php/guides/laravel/usage/#log-channels), allowing you to capture `info` and `debug` logs as well.
+This will create a `config/apm.php` file where you can configure the webhook URL.
 
-### Configure
+### 3. Configure the Webhook URL
 
-Configure the Telex APM with this command:
-
-```shell
-php artisan vendor:publish --provider="TelexAPM\APMServiceProvider" --tag="config"
-```
-
-It creates the config file (`config/sentry.php`) WITH your `.env` file.
-
-### Usage
+Open the `config/apm.php` file and set your webhook URL:
 
 ```php
-use function telex\captureException;
-
-try {
-    $this->functionThatMayFail();
-} catch (\Throwable $exception) {
-    captureException($exception);
-}
+return [
+    'webhook_url' => 'https://example.com/your-webhook-endpoint', // Replace with your actual URL
+];
 ```
 
-To learn more about how to use the SDK [refer to our docs](https://docs.sentry.io/platforms/php/guides/laravel/).
+### 4. Middleware Integration
+
+The package automatically registers the APM middleware, which will track metrics for all requests in the `web` middleware group. Ensure your Laravel application routes are using the `web` middleware group for monitoring.
+
+## Usage
+
+Once installed and configured, the package will automatically collect metrics for each incoming request to your Laravel application. These metrics will be sent to the configured webhook URL via a POST request.
+
+### Collected Metrics
+
+The following metrics are collected for each request:
+
+- HTTP Method (GET, POST, etc.)
+- Request URL
+- Response Status Code
+- Request Duration
+- Request Headers
+- Timestamp
+
+## Testing
+
+To ensure the package is working correctly, you can run your Laravel project in development mode and make a few requests. The metrics collected should be sent to the configured webhook URL.
+
+If you're encountering any errors, you can check Laravel's log files located in `storage/logs/laravel.log`.
+
+## Development
+
+If you want to contribute to the package or modify it:
+
+### 1. Clone the Repository
+
+Clone the package repository locally:
+
+```bash
+git clone https://github.com/yourusername/telex-apm.git
+cd telex-apm
+```
+
+### 2. Install Dependencies
+
+Install dependencies using Composer:
+
+```bash
+composer install
+```
+
+### 3. Run Tests
+
+You can run tests to ensure everything is working:
+
+```bash
+vendor/bin/phpunit
+```
+
+## Deployment
+
+To make the package public on Packagist, follow these steps:
+
+1. Ensure you have a Packagist account.
+2. Log in to [Packagist](https://packagist.org/) and submit your package's repository URL.
+3. Use `composer.json` to maintain the package metadata.
+
+## Contributing
+
+If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
+
+## Issues
+
+If you encounter any issues, please feel free to [open an issue](https://github.com/yourusername/telex-apm/issues) on GitHub.
+
+## License
+
+This package is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Contact
+
+For more information or support, please reach out to:
+
+- **Email:** [micahshallom@gmail.com](mailto:youremail@example.com)
+- **GitHub:** [Micah Shallom](https://github.com/Micah-Shallom)
+```
+
+### Replace Placeholders
+- Replace `"https://github.com/yourusername/telex-apm.git"` with the actual URL of your GitHub repository.
+- Update `youremail@example.com` and other placeholder URLs with actual contact information.
+- Update the Packagist URL once your package is published.
+
+This `README.md` provides a clear guide for users to install, configure, and use your package, along with instructions for contributing and development. Let me know if you need any additional details or sections!
