@@ -52,13 +52,17 @@ return [
 ];
 ```
 
-### 4. Middleware Integration
-
-The package automatically registers the APM middleware, which will track metrics for all requests in the `web` middleware group. Ensure your Laravel application routes are using the `web` middleware group for monitoring.
 
 ## Usage
 
-Once installed and configured, the package will automatically collect metrics for each incoming request to your Laravel application. These metrics will be sent to the configured webhook URL via a POST request.
+Once installed, initiate this in `App/Exceptions/Handler.php` in your laravel app, 
+
+```php
+app('laravel_telex_apm')->handle($exception);
+```
+
+This authomatically tracks all errors in your laravel app.
+
 
 ### Collected Metrics
 
