@@ -5,8 +5,7 @@ namespace TelexOrg\TelexAPM;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use TelexOrg\TelexAPM\Middleware\TelexAPMMiddleware;
-
-
+use TelexOrg\TelexAPM\Exception\ExceptionHandler;
 
 class TelexAPMServiceProvider extends ServiceProvider
 {
@@ -17,8 +16,6 @@ class TelexAPMServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/apm.php', 'myapm');
     }
-
-    
 
     /**
      * Bootstrap any application services.
@@ -32,7 +29,11 @@ class TelexAPMServiceProvider extends ServiceProvider
 
         // Register middleware
         $this->app['router']->pushMiddlewareToGroup('web', TelexAPMMiddleware::class);
+
+        // Use custom exception handler
+        $this->app->singleton(
+            \Illuminate\Contracts\Debug\ExceptionHandler::class,
+            ExceptionHandler::class
+        );
     }
 }
-
-
