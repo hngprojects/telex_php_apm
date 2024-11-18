@@ -1,5 +1,4 @@
-Below is a sample `README.md` file for your Laravel APM package:
-
+## Telex Laravel APM
 ```markdown
 # Telex APM
 
@@ -46,7 +45,10 @@ Open the `config/apm.php` file and set your webhook URL:
 
 ```php
 return [
-    'webhook_url' => 'https://example.com/your-webhook-endpoint', // Replace with your actual URL
+    'webhook_url' => 'https://example.com/your-default-webhook-endpoint', // Replace with your actual URL
+    '404_errors' => 'https://example.com/your-404-errors-webhook-endpoint', // Replace with your actual URL
+    '500_errors' => 'https://example.com/your-500-errors-webhook-endpoint', // Replace with your actual URL
+    'app_name' => 'your_app_name', // Replace with your actual app_name
 ];
 ```
 
@@ -68,6 +70,8 @@ The following metrics are collected for each request:
 - Request Duration
 - Request Headers
 - Timestamp
+- Stack Trace
+- Request Message
 
 ## Testing
 
@@ -127,6 +131,9 @@ This package is open-source software licensed under the [MIT license](https://op
 ## Contact
 
 For more information or support, please reach out to:
+
+- **Email:** [ganiujamiu03@gmail.com](mailto:youremail@example.com)
+- **GitHub:** [Ganiu Jamiu](https://github.com/muh-jamiu)
 
 - **Email:** [micahshallom@gmail.com](mailto:youremail@example.com)
 - **GitHub:** [Micah Shallom](https://github.com/Micah-Shallom)
