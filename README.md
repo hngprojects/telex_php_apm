@@ -55,10 +55,12 @@ return [
 
 ## Usage
 
-Once installed, initiate this in `App/Exceptions/Handler.php` in your laravel app, 
+Once installed, paste this code in `App/Exceptions/Handler.php` in your laravel app, 
 
 ```php
-app('laravel_telex_apm')->handle($exception);
+public function report(Throwable $exception){   
+    app('laravel_telex_apm')->handle($exception);
+}
 ```
 
 This authomatically tracks all errors in your laravel app.
