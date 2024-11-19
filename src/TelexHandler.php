@@ -59,8 +59,8 @@ class TelexHandler
     public function notFoundExceptionNotification($telex_msg){
         try {
                         
-            $webhookUrl = Config::get('errormonitor.404_errors');
-            $app_name = Config::get('errormonitor.app_name');
+            $webhookUrl = Config::get('telex_config.404_errors');
+            $app_name = Config::get('telex_config.app_name');
 
             $this->TelexNotification($webhookUrl, "Page Not Found - 404", $telex_msg, "error",  $app_name);    
 
@@ -72,8 +72,8 @@ class TelexHandler
     public function internalServerExceptionNotification($telex_msg){
         try {
             
-            $webhookUrl = Config::get('errormonitor.500_errors');
-            $app_name = Config::get('errormonitor.app_name');
+            $webhookUrl = Config::get('telex_config.500_errors');
+            $app_name = Config::get('telex_config.app_name');
         
             $this->TelexNotification($webhookUrl, "Internal Server Error - 500", $telex_msg, "error",  $app_name);    
 
@@ -85,8 +85,8 @@ class TelexHandler
     public function otherUnhandleErrors($telex_msg){
         try {
             
-            $webhookUrl = Config::get('errormonitor.500_errors');
-            $app_name = Config::get('errormonitor.app_name');
+            $webhookUrl = Config::get('telex_config.500_errors');
+            $app_name = Config::get('telex_config.app_name');
         
             $this->TelexNotification($webhookUrl, "Unhandled Error - 500", $telex_msg, "error",  $app_name);    
 
