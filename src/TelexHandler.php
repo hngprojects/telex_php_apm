@@ -36,15 +36,12 @@ class TelexHandler
 
         if ($status_code == 404) {
             $this->notFoundExceptionNotification($telex_msg);
-            return true;
         }
-
-        if ($status_code >= 500) {
+        else{
             $this->internalServerExceptionNotification($telex_msg);
-            return true;
         }
 
-        $this->otherUnhandleErrors($telex_msg);
+        // $this->otherUnhandleErrors($telex_msg);
     }
 
     public function TelexNotification($path, $event_name, $message, $status, $user_name = null){
